@@ -32,21 +32,6 @@ public class Main {
         main.calculStockProjeteAvecAppro(stk, approByDayMap); 
     }
 
-    private void calculStockProjeteAvecAppro(Stock stk, Map<Integer, BigDecimal> approByDayMap) {
-        System.out.println("Stock initial : " + stk.getStkInit()); 
-        BigDecimal 𝑠𝑡𝑘𝑃𝑟𝑜𝑗 = stk.getStkInit();
-        for (int i = 0 ; i < maxJours; i++){  
-            if (i < stk.getMovList().size()){
-                //Movement movement = stk.getMovList().get(i); 
-                if (approByDayMap.get(i) != null){
-                    𝑠𝑡𝑘𝑃𝑟𝑜𝑗 = 𝑠𝑡𝑘𝑃𝑟𝑜𝑗.add(approByDayMap.get(i)); 
-                }
-                𝑠𝑡𝑘𝑃𝑟𝑜𝑗 = 𝑠𝑡𝑘𝑃𝑟𝑜𝑗.subtract(stk.getMovList().get(i).getQty());
-            }
-            System.out.println("Jour " + i + " : " + 𝑠𝑡𝑘𝑃𝑟𝑜𝑗);
-        }
-    }
-
     public void getInput(Stock stk){
         try (Scanner sc = new Scanner(System.in)) {
             System.out.print("Veuillez renseigner le stock initial : ");
@@ -120,6 +105,21 @@ public class Main {
         }
 
         return approDayQtyMap; 
+    }
+
+    private void calculStockProjeteAvecAppro(Stock stk, Map<Integer, BigDecimal> approByDayMap) {
+        System.out.println("Stock initial : " + stk.getStkInit()); 
+        BigDecimal 𝑠𝑡𝑘𝑃𝑟𝑜𝑗 = stk.getStkInit();
+        for (int i = 0 ; i < maxJours; i++){  
+            if (i < stk.getMovList().size()){
+                //Movement movement = stk.getMovList().get(i); 
+                if (approByDayMap.get(i) != null){
+                    𝑠𝑡𝑘𝑃𝑟𝑜𝑗 = 𝑠𝑡𝑘𝑃𝑟𝑜𝑗.add(approByDayMap.get(i)); 
+                }
+                𝑠𝑡𝑘𝑃𝑟𝑜𝑗 = 𝑠𝑡𝑘𝑃𝑟𝑜𝑗.subtract(stk.getMovList().get(i).getQty());
+            }
+            System.out.println("Jour " + i + " : " + 𝑠𝑡𝑘𝑃𝑟𝑜𝑗);
+        }
     }
 
     public String generateId(){
