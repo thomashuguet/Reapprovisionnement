@@ -1,9 +1,10 @@
 package Model;
 
+@Deprecated
 public class Product {
     private String id; 
     private String reference;
-    
+
     public String getId() {
         return id;
     }
