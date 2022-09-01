@@ -5,12 +5,12 @@ import java.util.List;
 
 public class Stock {
 
-    private String id;
-    private BigDecimal stkInit; 
-    private int couvMin; 
-    private int couvCible; 
-    private Product product; 
-    private List<Movement> movList;
+    private String          id;
+    private BigDecimal      stkInit; 
+    private int             couvMin; 
+    private int             couvCible; 
+    private Product         product; 
+    private List<Movement>  movList;
 
     public Stock(String id, Product product, BigDecimal stkInit, int couvMin, int couvCible, List<Movement> movList) {
         this.id         = id;

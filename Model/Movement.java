@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 
 public class Movement {
     
-    private String id; 
-    private BigDecimal qty; 
-    //private String unity; 
-    private int day; 
-    private Product product;
+    private String      id; 
+    private BigDecimal  qty; 
+    private int         day; 
+    private Product     product;
+    //private String      unity; 
 
     public Movement(String id, Product product, BigDecimal qty, int day){
         this.day     = day; 
