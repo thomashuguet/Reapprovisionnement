@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import Model.Movement;
+import Model.Product;
 import Model.Stock;
 
 public class Main {
@@ -18,13 +19,12 @@ public class Main {
     public static void main(String[] args) {
 
         Main main = new Main(); 
-        Stock stk = new Stock(); 
-
+        /*Stock stk = new Stock();
         stk.setId(main.generateId());
-
         main.getInput(stk);
+        main.calculStockProjeteSansAppro(stk);*/
 
-        //main.calculStockProjeteSansAppro(stk);
+        Stock stk = main.getDonnée(); 
 
         Map<Integer, BigDecimal> approByDayMap = main.CalculPropoApprovisionnement(stk); 
         approByDayMap.forEach((key, value) -> System.out.println("Jour " + key + " : " + "Qty a appro : " + value));
@@ -32,8 +32,12 @@ public class Main {
         main.calculStockProjeteAvecAppro(stk, approByDayMap); 
     }
 
+    @Deprecated
     public void getInput(Stock stk){
         try (Scanner sc = new Scanner(System.in)) {
+
+            Product prod = new Product(generateId(), "DEFAULT"); 
+
             System.out.print("Veuillez renseigner le stock initial : ");
             stk.setStkInit(new BigDecimal(sc.nextLine()));
 
@@ -44,7 +48,7 @@ public class Main {
             List<Movement> movList = new ArrayList<>(); 
 
             for (int i =0; i < outputList.size(); i++){
-                Movement movement = new Movement(generateId(), new BigDecimal(outputList.get(i)), i); 
+                Movement movement = new Movement(generateId(), prod, new BigDecimal(outputList.get(i)), i); 
                 movList.add(movement); 
             }
             stk.setMovList(movList);
@@ -55,6 +59,28 @@ public class Main {
             System.out.print("Veuillez renseigner le nombre de jour cible à couvrir : ");
             stk.setCouvCible(Integer.parseInt(sc.nextLine()));
         }       
+    }
+
+    public Stock getDonnée (){
+
+        Product product = new Product(generateId(), "DEFAULT"); 
+
+        BigDecimal stkInit = BigDecimal.valueOf(1200); 
+        var couvMin = 5; 
+        var couvCible = 3; 
+
+        double[] outpuList = {79.23,93.49,76.29,93.53,68.24,112.35,41.81,112.15,88.45,62.80,104.44,102.57,87.02,17.30,85.03,3.29,85.49,15.22,11.88,87.94,80.14,70.43,17.67,86.04,27.12,14.14,2.01,37.63,8.45,31.56};
+
+        List<Movement> movList = new ArrayList<>(); 
+        
+        for (int i = 0; i < outpuList.length; i++){
+            Movement movement = new Movement(generateId(), product, BigDecimal.valueOf(outpuList[i]), i); 
+            movList.add(movement); 
+        }
+
+        Stock stk = new Stock(generateId(), product, stkInit, couvMin, couvCible, movList); 
+
+        return stk; 
     }
 
     public void calculStockProjeteSansAppro(Stock stk){

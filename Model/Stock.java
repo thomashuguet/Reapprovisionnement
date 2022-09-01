@@ -9,17 +9,27 @@ public class Stock {
     private BigDecimal stkInit; 
     private int couvMin; 
     private int couvCible; 
-    // private Product product; 
+    private Product product; 
     private List<Movement> movList;
 
+    public Stock(String id, Product product, BigDecimal stkInit, int couvMin, int couvCible, List<Movement> movList) {
+        this.id = id;
+        this.stkInit = stkInit;
+        this.couvMin = couvMin;
+        this.couvCible = couvCible;
+        this.movList = movList;
+    }
 
-   /* public Product getProduct() {
+    public Product getProduct() {
         return product;
     }
 
     public void setProduct(Product product) {
         this.product = product;
-    }*/
+    }
+
+    public Stock() {
+    }
 
     public String getId() {
         return id;

@@ -8,12 +8,20 @@ public class Movement {
     private BigDecimal qty; 
     //private String unity; 
     private int day; 
-    //private Product product;
+    private Product product;
 
-    public Movement(String id, BigDecimal qty, int day){
+    public Movement(String id, Product product, BigDecimal qty, int day){
         this.day = day; 
         this.qty = qty; 
         this.id = id; 
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public String getId() {

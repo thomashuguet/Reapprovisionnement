@@ -1,10 +1,13 @@
 package Model;
 
-@Deprecated
 public class Product {
     private String id; 
     private String reference;
 
+    public Product(String id, String reference) {
+        this.id = id;
+        this.reference = reference;
+    }
     public String getId() {
         return id;
     }
