@@ -65,11 +65,11 @@ public class Main {
 
         Product product = new Product(generateId(), "DEFAULT"); 
 
-        BigDecimal stkInit = BigDecimal.valueOf(1200); 
+        BigDecimal stkInit = BigDecimal.valueOf(500); 
         var couvMin = 5; 
         var couvCible = 3; 
 
-        double[] outpuList = {79.23,93.49,76.29,93.53,68.24,112.35,41.81,112.15,88.45,62.80,104.44,102.57,87.02,17.30,85.03,3.29,85.49,15.22,11.88,87.94,80.14,70.43,17.67,86.04,27.12,14.14,2.01,37.63,8.45,31.56};
+        double[] outpuList = {79.23,93.49,76.29,93.53,68.24,112.35,41.81,112.15};//,88.45,62.80,104.44,102.57,87.02,17.30,85.03,3.29,85.49,15.22,11.88,87.94,80.14,70.43,17.67,86.04,27.12,14.14,2.01,37.63,8.45,31.56};
 
         List<Movement> movList = new ArrayList<>(); 
         
@@ -107,14 +107,13 @@ public class Main {
                                         .collect(Collectors.toList()); 
 
         for(Movement movement : stk.getMovList()){
-            stkProj = stkProj.subtract(movement.getQty());     
 
-            int dayCouvMin = (movement.getDay() + stk.getCouvMin() < maxJours) 
+            int dayCouvMin = (movement.getDay() + stk.getCouvMin() < outputList.size()) 
                                     ? movement.getDay() + stk.getCouvMin() 
-                                    : maxJours; 
-            int dayCouvCible = (movement.getDay() + stk.getCouvCible() < maxJours) 
+                                    : outputList.size(); 
+            int dayCouvCible = (movement.getDay() + stk.getCouvCible() < outputList.size()) 
                                     ? movement.getDay() + stk.getCouvCible() 
-                                    : maxJours; 
+                                    : outputList.size(); 
 
             stkCouvMin = outputList.subList(movement.getDay(), dayCouvMin)
                                 .stream()
@@ -125,9 +124,18 @@ public class Main {
                                 .reduce(BigDecimal.ZERO, BigDecimal::add);             
 
             if (stkProj.compareTo(stkCouvMin) <= 0){
-                approDayQtyMap.put(movement.getDay(), stkCouvCible); 
-                stkProj = stkProj.add(stkCouvCible); 
+
+                BigDecimal stkToAppro = stkCouvCible.subtract(stkProj);
+                // si la couverture min est > au stk projeté 
+                //      mais que le stock cible est < au stock projeté 
+                //      on ne prend pas le stock à approvisionné car cela signifie que l'on a un surplus de stock
+                if (stkToAppro.compareTo(BigDecimal.ZERO)> 0){
+                    approDayQtyMap.put(movement.getDay(), stkToAppro); 
+                    stkProj = stkProj.add(stkToAppro); 
+                }
             }
+
+            stkProj = stkProj.subtract(movement.getQty()); 
         }
 
         return approDayQtyMap; 
@@ -135,16 +143,16 @@ public class Main {
 
     private void calculStockProjeteAvecAppro(Stock stk, Map<Integer, BigDecimal> approByDayMap) {
         System.out.println("Stock initial : " + stk.getStkInit()); 
-        BigDecimal 𝑠𝑡𝑘𝑃𝑟𝑜𝑗 = stk.getStkInit();
+        BigDecimal 𝑠𝑡𝑘𝑃𝑟𝑜𝑗t = stk.getStkInit();
         for (int i = 0 ; i < maxJours; i++){  
             if (i < stk.getMovList().size()){
-                //Movement movement = stk.getMovList().get(i); 
+                Movement movement = stk.getMovList().get(i); 
                 if (approByDayMap.get(i) != null){
-                    𝑠𝑡𝑘𝑃𝑟𝑜𝑗 = 𝑠𝑡𝑘𝑃𝑟𝑜𝑗.add(approByDayMap.get(i)); 
+                    𝑠𝑡𝑘𝑃𝑟𝑜𝑗t = 𝑠𝑡𝑘𝑃𝑟𝑜𝑗t.add(approByDayMap.get(i)); 
                 }
-                𝑠𝑡𝑘𝑃𝑟𝑜𝑗 = 𝑠𝑡𝑘𝑃𝑟𝑜𝑗.subtract(stk.getMovList().get(i).getQty());
+                𝑠𝑡𝑘𝑃𝑟𝑜𝑗t = 𝑠𝑡𝑘𝑃𝑟𝑜𝑗t.subtract(stk.getMovList().get(i).getQty());
             }
-            System.out.println("Jour " + i + " : " + 𝑠𝑡𝑘𝑃𝑟𝑜𝑗);
+            System.out.println("Jour " + i + " : " + 𝑠𝑡𝑘𝑃𝑟𝑜𝑗t);
         }
     }
 
