@@ -13,11 +13,12 @@ public class Stock {
     private List<Movement> movList;
 
     public Stock(String id, Product product, BigDecimal stkInit, int couvMin, int couvCible, List<Movement> movList) {
-        this.id = id;
-        this.stkInit = stkInit;
-        this.couvMin = couvMin;
-        this.couvCible = couvCible;
-        this.movList = movList;
+        this.id         = id;
+        this.product    = product; 
+        this.stkInit    = stkInit;
+        this.couvMin    = couvMin;
+        this.couvCible  = couvCible;
+        this.movList    = movList;
     }
 
     public Product getProduct() {

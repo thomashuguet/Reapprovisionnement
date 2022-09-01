@@ -5,7 +5,7 @@ public class Product {
     private String reference;
 
     public Product(String id, String reference) {
-        this.id = id;
+        this.id        = id;
         this.reference = reference;
     }
     public String getId() {

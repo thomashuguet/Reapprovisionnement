@@ -62,14 +62,12 @@ public class Main {
     }
 
     public Stock getDonnée (){
-
-        Product product = new Product(generateId(), "DEFAULT"); 
-
-        BigDecimal stkInit = BigDecimal.valueOf(500); 
-        var couvMin = 3; 
-        var couvCible = 5; 
-
-        double[] outpuList = {79.23,93.49,76.29,93.53,68.24,112.35,41.81,112.15};//,88.45,62.80,104.44,102.57,87.02,17.30,85.03,3.29,85.49,15.22,11.88,87.94,80.14,70.43,17.67,86.04,27.12,14.14,2.01,37.63,8.45,31.56};
+        // Initialise les données pour le test
+        Product     product   = new Product(generateId(), "DEFAULT");
+        BigDecimal  stkInit   = BigDecimal.valueOf(500); 
+        var         couvMin   = 3; 
+        var         couvCible = 5;
+        double[]    outpuList = {79.23,93.49,76.29,93.53,68.24,112.35,41.81,112.15};//,88.45,62.80,104.44,102.57,87.02,17.30,85.03,3.29,85.49,15.22,11.88,87.94,80.14,70.43,17.67,86.04,27.12,14.14,2.01,37.63,8.45,31.56};
 
         List<Movement> movList = new ArrayList<>(); 
         
@@ -98,8 +96,8 @@ public class Main {
     public Map<Integer, BigDecimal> CalculPropoApprovisionnement(Stock stk){
         Map<Integer, BigDecimal> approDayQtyMap = new HashMap<>(); 
 
-        BigDecimal stkProj = stk.getStkInit(); 
-        BigDecimal stkCouvMin = BigDecimal.ZERO; 
+        BigDecimal stkProj      = stk.getStkInit(); 
+        BigDecimal stkCouvMin   = BigDecimal.ZERO; 
         BigDecimal stkCouvCible = BigDecimal.ZERO; 
 
         List<BigDecimal> outputList = stk.getMovList().stream()

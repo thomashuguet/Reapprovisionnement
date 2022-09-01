@@ -11,9 +11,10 @@ public class Movement {
     private Product product;
 
     public Movement(String id, Product product, BigDecimal qty, int day){
-        this.day = day; 
-        this.qty = qty; 
-        this.id = id; 
+        this.day     = day; 
+        this.product = product; 
+        this.qty     = qty; 
+        this.id      = id; 
     }
 
     public Product getProduct() {
@@ -36,23 +37,11 @@ public class Movement {
     public void setQty(BigDecimal qty) {
         this.qty = qty;
     }
-   /* public String getUnity() {
-        return unity;
-    }
-    public void setUnity(String unity) {
-        this.unity = unity;
-    }*/
+   
     public int getDay() {
         return day;
     }
     public void setDay(int day) {
         this.day = day;
     }
-    /*public Product getProduct() {
-        return product;
-    }
-    public void setProduct(Product product) {
-        this.product = product;
-    } */
-
 }
