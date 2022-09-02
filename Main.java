@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import Model.Movement;
 import Model.Product;
 import Model.Stock;
+import Model.Movement.movType;
 
 public class Main {
 
@@ -48,7 +49,7 @@ public class Main {
             List<Movement> movList = new ArrayList<>(); 
 
             for (int i =0; i < outputList.size(); i++){
-                Movement movement = new Movement(generateId(), prod, new BigDecimal(outputList.get(i)), i); 
+                Movement movement = new Movement(generateId(), prod, new BigDecimal(outputList.get(i)), i, movType.output); 
                 movList.add(movement); 
             }
             stk.setMovList(movList);
@@ -72,7 +73,7 @@ public class Main {
         List<Movement> movList = new ArrayList<>(); 
         
         for (int i = 0; i < outpuList.length; i++){
-            Movement movement = new Movement(generateId(), product, BigDecimal.valueOf(outpuList[i]), i); 
+            Movement movement = new Movement(generateId(), product, BigDecimal.valueOf(outpuList[i]), i, movType.output); 
             movList.add(movement); 
         }
 
@@ -87,7 +88,11 @@ public class Main {
         for (int i = 0 ; i <= maxJours; i++){  
             if (i < stk.getMovList().size()){
                 //Movement movement = stk.getMovList().get(i); 
-                𝑠𝑡𝑘𝑃𝑟𝑜𝑗 = 𝑠𝑡𝑘𝑃𝑟𝑜𝑗.subtract(stk.getMovList().get(i).getQty());
+                if (stk.getMovList().get(i).getType() == movType.output){
+                    𝑠𝑡𝑘𝑃𝑟𝑜𝑗 = 𝑠𝑡𝑘𝑃𝑟𝑜𝑗.subtract(stk.getMovList().get(i).getQty());
+                } else {
+                    𝑠𝑡𝑘𝑃𝑟𝑜𝑗 = 𝑠𝑡𝑘𝑃𝑟𝑜𝑗.add(stk.getMovList().get(i).getQty());
+                }
             }
             System.out.println("Jour " + i  + " : " + 𝑠𝑡𝑘𝑃𝑟𝑜𝑗);
         }
@@ -148,7 +153,11 @@ public class Main {
                 if (approByDayMap.get(i) != null){
                     stkProj = stkProj.add(approByDayMap.get(i)); 
                 }
-                stkProj = stkProj.subtract(stk.getMovList().get(i).getQty());
+                if (stk.getMovList().get(i).getType() == movType.output){
+                    stkProj = stkProj.subtract(stk.getMovList().get(i).getQty());
+                } else {
+                    stkProj = stkProj.add(stk.getMovList().get(i).getQty());
+                }
             }
             System.out.println("Jour " + i + " : " + stkProj);
         }

@@ -9,12 +9,28 @@ public class Movement {
     private int         day; 
     private Product     product;
     //private String      unity; 
+    private movType        type; 
+    
+   
+    public enum movType {
+        input, 
+        output
+    }
 
-    public Movement(String id, Product product, BigDecimal qty, int day){
+    public Movement(String id, Product product, BigDecimal qty, int day, movType type){
         this.day     = day; 
         this.product = product; 
         this.qty     = qty; 
         this.id      = id; 
+        this.type    = type; 
+    }
+
+    public movType getType() {
+        return type;
+    }
+
+    public void setType(movType type) {
+        this.type = type;
     }
 
     public Product getProduct() {
